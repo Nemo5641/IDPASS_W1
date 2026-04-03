@@ -1,20 +1,16 @@
 /* =======================================================
-   ส่วนที่ 1: การทำงานของหน้า Login Form
+   ส่วนที่ 1: ระบบหน้า Login Form
    ======================================================= */
 
-// ฟังก์ชันสลับ Tab และจัดการการแสดง/ซ่อนช่องกรอกข้อมูล
+// ฟังก์ชันสลับ Tab ระหว่าง OTP กับ Token
 function switchTab(event, tabName) {
-
-    // จัดการเรื่องสีของปุ่ม Tab
     const tabs = document.querySelectorAll('.tab-button');
     tabs.forEach(tab => tab.classList.remove('active'));
     event.target.classList.add('active');
 
-    // จัดการการซ่อน/แสดงช่องกรอก
     const inputGroup = document.getElementById('dynamicInputGroup');
     const dynamicInput = document.getElementById('dynamicInput');
 
-    // ถ้าเลือก OTP ให้ซ่อนช่องกรอกและไม่ต้องกรอกข้อมูล แต่ถ้าเลือก TOKEN ให้แสดงช่องกรอกและต้องกรอกข้อมูล
     if (tabName === 'OTP') {
         inputGroup.style.display = 'none';
         dynamicInput.required = false; 
@@ -25,7 +21,7 @@ function switchTab(event, tabName) {
     }
 }
 
-// ฟังก์ชันเปิด/ปิดการแสดงรหัสผ่าน
+// ฟังก์ชันแสดง/ซ่อนรหัสผ่าน
 function togglePassword() {
     const passwordInput = document.getElementById('passwordInput');
     if (passwordInput.type === 'password') {
@@ -35,19 +31,17 @@ function togglePassword() {
     }
 }
 
-// เช็คก่อนว่ามีฟอร์ม Login อยู่บนหน้านี้ไหม (เพื่อป้องกัน Error ถ้าเอา Script นี้ไปใช้กับหน้าอื่นที่ไม่มีฟอร์ม Login)
+// ฟังก์ชันจัดการการส่งฟอร์ม Login
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault(); 
-        
+
         const username = document.getElementById('usernameInput').value;
         const password = document.getElementById('passwordInput').value;
         const dynamicVal = document.getElementById('dynamicInput').value;
-        
         const activeTab = document.querySelector('.tab-button.active').innerText.trim();
 
-        // เช็คว่ากรอก Username กับ Password มาครบหรือยัง (ไม่ต้องเช็ค Token เพราะถ้าเลือก OTP ช่องกรอกจะถูกซ่อนและไม่ต้องกรอก)
         if (!username || !password) {
             alert("กรุณากรอก Username และ Password ให้ครบถ้วน");
             return;
@@ -57,37 +51,61 @@ if (loginForm) {
             return;
         }
 
-        // บันทึกข้อมูลที่กรอกไว้ใน sessionStorage เพื่อให้หน้า Landing สามารถดึงไปใช้ได้
         sessionStorage.setItem('savedUsername', username);
-        sessionStorage.setItem('savedMode', activeTab);
-
-        // ถ้าเลือก Token ก็เก็บค่า Token ไว้ด้วย แต่ถ้าเลือก OTP ก็ไม่ต้องเก็บอะไรเพิ่ม
-        if (activeTab === 'TOKEN') {
-            sessionStorage.setItem('savedToken', dynamicVal);
-        }
-
+        
         window.location.href = 'landing.html';
     });
 }
 
-// ตรวจสอบว่ามีใคร Login เข้ามาหรือไม่ (จะทำงานบนหน้า Landing)
+/* =======================================================
+   ส่วนที่ 2: ระบบหน้า Landing Menu
+   ======================================================= */
+
+// ตรวจสอบว่ามีผู้ใช้ Login เข้ามาหรือไม่ (แสดงใน Console)
 window.addEventListener('DOMContentLoaded', (event) => {
     const loggedInUser = sessionStorage.getItem('savedUsername');
-
     if (loggedInUser) {
-        console.log(`"${loggedInUser}" ได้ทำการเข้าสู่ระบบแล้ว`);
+        console.log(`"${loggedInUser}" เข้าสู่ระบบแล้ว`);
 
-        // ถ้าอยากให้แสดงแค่ครั้งเดียวตอนเพิ่งเข้ามา ให้เอาคอมเมนต์บรรทัดล่างออก
-        // sessionStorage.removeItem('savedUsername'); 
+        // ถ้าไม่อยากให้มันเด้งรัวๆ เวลารีเฟรชหน้า Landing ให้เอาคอมเมนต์บรรทัดล่างออก
+        // sessionStorage.removeItem('savedUsername');
+    }
+
+    // ถ้าอยู่หน้า Landing Menu ให้ทำการโหลดเมนูจาก JSON
+    if (document.getElementById('menuSlider')) {
+        loadMenus();
     }
 });
 
+// ฟังก์ชันดึงข้อมูลจากไฟล์ JSON มาสร้างเป็นปุ่มเมนู
+async function loadMenus() {
+    const menuSlider = document.getElementById('menuSlider');
+    
+    try {
+        const response = await fetch('menu.json');
+        const menus = await response.json();
+        
+        menuSlider.innerHTML = '';
 
-/* =======================================================
-   ส่วนที่ 2: การทำงานของหน้า Landing Menu
-   ======================================================= */
+        menus.forEach(menu => {
+            const menuHTML = `
+                <a href="${menu.link}" class="menu-item" target="_blank">
+                    <div class="icon-circle">
+                        <img src="${menu.icon}" alt="${menu.title}">
+                    </div>
+                    <span>${menu.title}</span>
+                </a>
+            `;
+            menuSlider.innerHTML += menuHTML;
+        });
 
-// ฟังก์ชันเปิด/ปิด Inbox
+    } catch (error) {
+        console.error("เกิดข้อผิดพลาดในการโหลดข้อมูลเมนู:", error);
+        menuSlider.innerHTML = '<p style="padding:20px; text-align:center; width:100%; color:red;">ไม่สามารถโหลดข้อมูลเมนูได้</p>';
+    }
+}
+
+// ระบบเปิด/ปิดกล่อง Inbox
 function toggleInbox() {
     const content = document.getElementById("inboxContent");
     const arrow = document.getElementById("inboxArrow");
@@ -106,7 +124,7 @@ function toggleInbox() {
     }
 }
 
-// ฟังก์ชันลากเมาส์เลื่อน (เช็คก่อนว่ามี Slider บนหน้านี้ไหม)
+// ระบบลากเมาส์เลื่อน (สำหรับมือถือ/iPad แนวนอน)
 const slider = document.getElementById('menuSlider');
 if (slider) {
     let isDown = false;
@@ -132,6 +150,7 @@ if (slider) {
 
     slider.addEventListener('mousemove', (e) => {
         if (!isDown) return;
+        // ปิดการลากเมาส์เมื่ออยู่บน PC (กว้างเกิน 768px และเป็น Grid)
         if (window.innerWidth >= 768) return; 
         
         e.preventDefault();
@@ -139,6 +158,4 @@ if (slider) {
         const walk = (x - startX) * 1.5; 
         slider.scrollLeft = scrollLeft - walk;
     });
-
-    slider.style.cursor = 'grab';
 }

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Menu - AIS Mobile Shop</title>
     <link rel="stylesheet" href="style.css">
-
     <style>
         /* พื้นฐาน */
         body {
@@ -35,8 +34,9 @@
             transition: opacity 0.2s;
         }
 
+        /* เอฟเฟคเมื่อเอาเมาส์ชี้ */
         .logout-icon:hover {
-            opacity: 0.7; /* เวลาเอาเมาส์ชี้ให้สีจางลงนิดนึงจะได้รู้ว่าเป็นปุ่ม */
+            opacity: 0.7;
         }
 
         /* ส่วนเนื้อหาหลัก */
@@ -221,66 +221,23 @@
             height: auto;
         }
     </style>
+
 </head>
 <body>
-    <!-- ส่วนแถบบนของหน้าเว็บ -->
     <div class="top-bar">
         <span>AIS MOBILE SHOP V2.01</span>
         <a href="login.html" class="logout-icon" title="กลับไปหน้า Login">⋮</a>
     </div>
 
-    <!-- ส่วนแบนเนอร์ -->
     <div class="banner">
         <img src="pic/Frame 3581.png" alt="AIS Banner" style="max-width: 100%; height: auto;">
     </div>
 
-    <!-- ส่วนเนื้อหาหลัก -->
     <div class="container">
-        <!-- ส่วนเมนู -->
+        
         <div class="menu-container" id="menuSlider">
-            <a href="https://sit-mychannel.cdc.ais.th/customer-portal-info/portal" class="menu-item">
-                <div class="icon-circle"><img src="pic/human.png" alt=""></div>
-                <span>Customer Portal</span>
-            </a>
-            <a href="https://shopee.co.th/?mmp_pid=an_15300490356&uls_trackid=559g57g802r9&gad_campaignid=23045309932" class="menu-item">
-                <div class="icon-circle"><img src="pic/cart.png" alt=""></div>
-                <span>Sale</span>
-            </a>
-            <a href="https://greener.bangkok.go.th/waste-recycle/e-waste/" class="menu-item">
-                <div class="icon-circle"><img src="pic/waste.png" alt=""></div>
-                <span>e-Waste (Point)</span>
-            </a>
-            <a href="https://www.ikm.com/" class="menu-item">
-                <div class="icon-circle"><img src="pic/ikm.png" alt=""></div>
-                <span>iKM</span>
-            </a>
-            <a href="https://sit-mychannel.cdc.ais.th/app3steps/promote-qrcode" class="menu-item">
-                <div class="icon-circle"><img src="pic/my_ais_ic_launcher.png" alt=""></div>
-                <span>My AIS (Download)</span>
-            </a>
-            <a href="https://eleaflet.eu/" class="menu-item">
-                <div class="icon-circle"><img src="pic/eleaf.png" alt=""></div>
-                <span>e-Leaflet</span>
-            </a>
-            <a href="https://pointblank.zepetto.com/th/news/view?idx=2192&page=1" class="menu-item">
-                <div class="icon-circle"><img src="pic/mobile.png" alt=""></div>
-                <span>สมัครแทนบัตร</span>
-            </a>
-            <a href="https://sit-mychannel.cdc.ais.th/digital-id/ndid/confirm-otp" class="menu-item">
-                <div class="icon-circle"><img src="pic/user.png" alt=""></div>
-                <span>แสดงตัวตน(NDID)</span>
-            </a>
-            <a href="https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Fn1f5ht2ob4381.png" class="menu-item">
-                <div class="icon-circle"><img src="pic/phone.png" alt=""></div>
-                <span>เครื่อง</span>
-            </a>
-            <a href="https://www.ea.com/games/the-sims/the-sims-4" class="menu-item">
-                <div class="icon-circle"><img src="pic/sim.png" alt=""></div>
-                <span>ซิม</span>
-            </a>
-        </div>
+            </div>
 
-        <!-- ส่วนกล่อง Inbox -->
         <div class="inbox-card">
             <div class="inbox-header" onclick="toggleInbox()">
                 <div class="inbox-title">
