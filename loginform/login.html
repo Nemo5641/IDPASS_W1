@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+
+    /* พื้นหลังตรงส่วนที่ไม่ใช่ฟอร์ม */
+    body { 
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* ส่วนตรงกล่องฟอร์ม */
+    .loginform {
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    /* ส่วน Form */
+    .form-container {
+        padding: 40px 30px;
+    }
+
+    /* ส่วนหัวของฟอร์ม */
+    .form-header {
+        margin-bottom: 25px;
+    }
+
+    /* ส่วนคำว่า Login */
+    .form-header h2 {
+        color: #8cc63f; 
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* ส่วนคำอธิบาย(Enter your...) */
+    .form-header p {
+        color: #888;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    /* ส่วน Tabs*/
+    .tabs {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    /* ส่วน Tabs(Token, OTP) */
+    .tab-button {
+        flex: 1;
+        padding: 12px 0;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        color: #555;
+        background-color: #e6e6e6; 
+        transition: background-color 0.3s;
+        border-radius: 2px;
+    }
+
+    /* ส่วน Tab ที่ถูกเลือก */
+    .tab-button.active {
+        background-color: #BFD743; 
+        color: #333;
+    }
+
+    /* ส่วน Input */
+    .input-group {
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    /* ส่วน Input */
+    .input-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        outline: none;
+    }
+
+    /* ส่วน Input ที่ถูกเลือก */
+    .input-group input:focus {
+        border-color: #8cc63f;
+    }
+
+    /* ส่วนไอคอนตา */
+    .eye-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+        user-select: none;
+    }
+
+    /* ส่วนปุ่ม Login */
+    .login-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #8DC63F;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+    }
+
+    /* ส่วนปุ่ม Login ตอนเอาเมาส์ไปชี้ */
+    .login-btn:hover {
+        background-color: #7ab32e;
+    }
+
+</style>
+<body>
+
+    <!-- ส่วนฟอร์มเข้าสู่ระบบ -->
+    <div class="loginform">
+       <!-- ส่วนแบนเนอร์ -->
+        <div class="banner"> 
+            <img src="/loginform/pic/Frame 3581.png" alt="banner">
+        </div>
+
+        <!-- ส่วนเนื้อหาของฟอร์ม -->
+        <div class="form-container">
+            <div class="form-header">
+                <h2> <img src="/loginform/pic/lock.png" alt="Lock" style="width: 24px; height: auto;"> Log in</h2>
+                <p>Enter your username and password to log on</p>
+            </div>
+
+            <!-- ส่วน Tabs -->
+            <div class="tabs">
+                <button type="button" class="tab-button active" onclick="switchTab(event, 'Token')">TOKEN</button>
+                <button type="button" class="tab-button" onclick="switchTab(event, 'OTP')">OTP</button>
+            </div>
+
+            <!-- ส่วนฟอร์มการกรอกข้อมูล -->
+            <form id="loginForm" action="#" method="POST">
+                <div class="input-group">
+                    <input type="text" id="usernameInput" placeholder="Username" required>
+                </div>
+    
+                <div class="input-group">
+                    <input type="password" id="passwordInput" placeholder="••••••••" required>
+                    <span class="eye-icon" onclick="togglePassword()">👁️‍🗨️</span> 
+                </div>
+
+                <div class="input-group" id="dynamicInputGroup">
+                    <input type="text" id="dynamicInput" placeholder="Token" required>
+                </div>
+
+                <button type="submit" class="login-btn">Log in</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Menu - AIS Mobile Shop</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* พื้นฐาน */
+        body {
+            display: block; 
+            background-color: #f4f4f4;
+            min-height: auto;
+        }
+
+        /* ส่วนแถบด้านบนของ banner */
+        .top-bar {
+            background-color: #8DC63F; 
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* ส่วนปุ่ม : (กลับไปหน้า Login) */
+        .logout-icon {
+            color: white;
+            text-decoration: none; 
+            cursor: pointer; 
+            font-size: 18px;
+            padding: 0 5px; 
+            transition: opacity 0.2s;
+        }
+
+        .logout-icon:hover {
+            opacity: 0.7; /* เวลาเอาเมาส์ชี้ให้สีจางลงนิดนึงจะได้รู้ว่าเป็นปุ่ม */
+        }
+
+        /* ส่วนเนื้อหาหลัก */
+        .container {
+            max-width: 1200px; 
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* ส่วนไอเท็มเมนู */
+        .menu-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-decoration: none;
+            color: #3C454D;
+            font-size: 13px;
+            text-align: center;
+            padding: 20px 10px;
+            border-radius: 12px;
+            transition: transform 0.2s, background-color 0.2s; 
+            background-color: transparent;
+        }
+
+        /* เอฟเฟคเมื่อเอาเมาส์ชี้ */
+        .menu-item:hover {
+            transform: translateY(-3px); 
+            background-color: #ffffff; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* วงกลมรอบไอคอน */
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            border: 1px solid #D3D3D3; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* ขนาดรูปภาพภายในวงกลม */
+        .icon-circle img {
+            width: 35px;
+            height: auto;
+        }
+
+        /* ส่วน Layout สำหรับ Mobile (หน้าจอเล็กกว่า 768px) ให้เลื่อนซ้ายขวาเอา */
+        .menu-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 15px;
+            
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; 
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+
+        /* ซ่อน Scrollbar เพื่อความเท่ห์ */
+        .menu-container::-webkit-scrollbar {
+            display: none; 
+        }
+
+        /* ส่วนไอเท็มเมนู */
+        .menu-container .menu-item {
+            flex: 0 0 110px; 
+            scroll-snap-align: start;
+        }
+
+        /* ส่วนLayout สำหรับ iPad (ตั้งแต่ 768px ขึ้นไป) -> แสดง 4 คอลัมน์*/
+        @media screen and (min-width: 768px) {
+            .menu-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                overflow-x: visible;
+                gap: 15px;
+                background-color: #ffffff;
+                padding: 30px 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            }
+            .menu-container .menu-item {
+                flex: auto; 
+            }
+            .menu-item:hover {
+                 background-color: #fcfcfc;
+            }
+        }
+
+        /* ส่วน Layout สำหรับ PC (ตั้งแต่ 1024px ขึ้นไป) ให้แสดง 6 คอลัมน์ */
+        @media screen and (min-width: 1024px) {
+            .menu-container {
+                grid-template-columns: repeat(6, 1fr); 
+            }
+        }
+
+        /* ส่วนกล่อง Inbox */
+        .inbox-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* ส่วนหัวกล่อง Inbox */
+        .inbox-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+            transition: background-color 0.2s;
+        }
+
+        .inbox-header:hover { background-color: #fcfcfc; }
+        .inbox-header.active { border-bottom: 1px solid #eee; }
+
+        /* ส่วนหัวกล่อง Inbox(ตัวอักษร) */
+        .inbox-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* ส่วนไอคอนในกล่อง Inbox */
+        .inbox-icon {
+            background-color: #8DC63F;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        /* ส่วนลูกศรตรงกล่อง Inbox */
+        .arrow {
+            transition: transform 0.3s;
+            color: #888;
+        }
+        .arrow.open { transform: rotate(180deg); }
+
+        /* ส่วนเนื้อหาในกล่อง Inbox */
+        .inbox-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fafafa;
+        }
+
+        /* ส่วนข้อความในกล่อง Inbox */
+        .inbox-content a {
+                display: block;
+                padding: 15px 20px;
+                color: #555;
+                text-decoration: none;
+                border-bottom: 1px solid #eee;
+        }
+        /* ส่วนเอาเมาส์ชี้สำหรับข้อความในกล่อง Inbox */
+        .inbox-content a:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* ส่วนไอคอนในกล่อง Inbox */
+        .inbox-icon img {
+            width: 16px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- ส่วนแถบบนของหน้าเว็บ -->
+    <div class="top-bar">
+        <span>AIS MOBILE SHOP V2.01</span>
+        <a href="login.html" class="logout-icon" title="กลับไปหน้า Login">⋮</a>
+    </div>
+
+    <!-- ส่วนแบนเนอร์ -->
+    <div class="banner">
+        <img src="/loginform/pic/Frame 3581.png" alt="AIS Banner" style="max-width: 100%; height: auto;">
+    </div>
+
+    <!-- ส่วนเนื้อหาหลัก -->
+    <div class="container">
+        <!-- ส่วนเมนู -->
+        <div class="menu-container" id="menuSlider">
+            <a href="https://sit-mychannel.cdc.ais.th/customer-portal-info/portal" class="menu-item">
+                <div class="icon-circle"><img src="/loginWform/pic/human.png" alt=""></div>
+                <span>Customer Portal</span>
+            </a>
+            <a href="https://shopee.co.th/?mmp_pid=an_15300490356&uls_trackid=559g57g802r9&gad_campaignid=23045309932" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/cart.png" alt=""></div>
+                <span>Sale</span>
+            </a>
+            <a href="https://greener.bangkok.go.th/waste-recycle/e-waste/" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/waste.png" alt=""></div>
+                <span>e-Waste (Point)</span>
+            </a>
+            <a href="https://www.ikm.com/" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/ikm.png" alt=""></div>
+                <span>iKM</span>
+            </a>
+            <a href="https://sit-mychannel.cdc.ais.th/app3steps/promote-qrcode" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/my_ais_ic_launcher.png" alt=""></div>
+                <span>My AIS (Download)</span>
+            </a>
+            <a href="https://eleaflet.eu/" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/eleaf.png" alt=""></div>
+                <span>e-Leaflet</span>
+            </a>
+            <a href="https://pointblank.zepetto.com/th/news/view?idx=2192&page=1" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/mobile.png" alt=""></div>
+                <span>สมัครแทนบัตร</span>
+            </a>
+            <a href="https://sit-mychannel.cdc.ais.th/digital-id/ndid/confirm-otp" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/user.png" alt=""></div>
+                <span>แสดงตัวตน(NDID)</span>
+            </a>
+            <a href="https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Fn1f5ht2ob4381.png" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/phone.png" alt=""></div>
+                <span>เครื่อง</span>
+            </a>
+            <a href="https://www.ea.com/games/the-sims/the-sims-4" class="menu-item">
+                <div class="icon-circle"><img src="/loginform/pic/sim.png" alt=""></div>
+                <span>ซิม</span>
+            </a>
+        </div>
+
+        <!-- ส่วนกล่อง Inbox -->
+        <div class="inbox-card">
+            <div class="inbox-header" onclick="toggleInbox()">
+                <div class="inbox-title">
+                    <div class="inbox-icon"><img src="/loginform/pic/comment.png" alt=""></div>
+                    <span>Inbox</span> 
+                </div>
+                <div class="arrow" id="inboxArrow">▼</div>
+            </div>
+            <div class="inbox-content" id="inboxContent">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">อย่ากดเด็ดขาด 😡😡😡</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="scripts.js"></script>
+
+</body>
+</html>

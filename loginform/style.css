@@ -1,0 +1,13 @@
+/* ส่วนการจัดรูปแบบพื้นฐาน (ฟอนต์และขนาด, ระยะห่าง, ขอบ, banner, อื่นๆ) ที่ใช้ได้กับหน้าทั้งหมด */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.banner img{
+    width: 100%;
+    height: auto;
+}
